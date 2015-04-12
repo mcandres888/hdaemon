@@ -1,0 +1,51 @@
+#!/bin/bash
+# declare all you config names hear
+CONFIG=('video.conf');
+APP_PATH=/home/mcandres/sandbox/hdaemons/
+PYTHON=/usr/bin/python
+CONFIG_PATH=/home/mcandres/sandbox/hdaemons/etc/
+USER=root
+start() {
+    cd $APP_PATH
+for i in "${CONFIG[@]}"
+do
+   :  
+    zdaemon -C $CONFIG_PATH$i start
+done
+}
+stop() {
+    cd $APP_PATH
+for i in "${CONFIG[@]}"
+do
+   :  
+    zdaemon -C $CONFIG_PATH$i stop
+done
+}
+
+check_status() {
+        cd $APP_PATH
+for i in "${CONFIG[@]}"
+do
+   :
+    zdaemon -C $CONFIG_PATH$i status
+done
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        check_status
+        ;;
+  restart)
+        stop
+        start
+        ;;
+  *)
+
+esac
+exit 0
