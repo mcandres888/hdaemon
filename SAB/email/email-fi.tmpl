@@ -1,0 +1,42 @@
+#encoding UTF-8
+##
+## Oletus sähköpostipohja SABnzbd:lle
+## Tämä on Cheetah pohja
+## Dokumentaatio: http://sabnzbd.wikidot.com/email-templates
+##
+## Rivinvaihdot ja välilyönnit ovat merkitseviä!
+##
+## Nämä ovat otsaketiedot. Rivien ensimmäisiä sanoja ei saa vaihtaa!
+To: $to
+From: $from
+Date: $date
+Subject: SABnzbd on <!--#if $status then "valmistunut" else "epäonnistunut" #--> työssä $name
+X-priority: 5
+X-MS-priority: 5
+## Tämän jälkeen tulee viestin runko, ensimmäinen rivinvaihto on pakollinen!
+
+Hei,
+<!--#if $status #-->
+SABnzbd on ladannut "$name" <!--#if $msgid=="" then "" else "(newzbin #" + $msgid + ")"#-->
+<!--#else#-->
+SABnzbd on epäonnistunut "$name" <!--#if $msgid=="" then "" else "(newzbin #" + $msgid + ")"#--> latauksessa
+<!--#end if#-->
+Valmistui $end_time
+Ladattu $size
+
+Työn lopputulos:
+<!--#for $stage in $stages #-->
+Tila $stage <!--#slurp#-->
+<!--#for $result in $stages[$stage]#-->
+    $result <!--#slurp#-->
+<!--#end for#-->
+<!--#end for#-->
+<!--#if $script!="" #-->
+Käyttäjän skriptin tuloste "$script" (Exit code = $script_ret):
+$script_output
+<!--#end if#-->
+<!--#if $status #-->
+Nauti!
+<!--#else#-->
+Pahoittelut!
+<!--#end if#-->

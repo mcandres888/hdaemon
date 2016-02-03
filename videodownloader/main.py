@@ -10,6 +10,20 @@ import os
 import shutil
 import datetime
 
+import xmpp, time, datetime
+
+SERVER = "neural.thousandminds.com"
+USER = "video_downloader01@neural.thousandminds.com"
+PASS = "dondon"
+jid = xmpp.JID(USER)
+mcandres = xmpp.JID('mcandres@neural.thousandminds.com')
+
+connection = xmpp.Client(jid.getDomain())
+connection.connect(server=(SERVER,5222))
+connection.auth(USER, PASS, "Daemon")
+connection.sendInitPresence()
+
+
 BASE = "https://hunterzero.iriscouch.com"
 VIDEOS_DESIGN  = BASE + "/videos/_design/query/_view/"
 BY_URL = VIDEOS_DESIGN + "byUrl?reduce=false"
@@ -21,10 +35,23 @@ VID_DB = COUCH_SERVER['videos']
 
 BASE_DIR = "/mnt/storage/mcandres/utorrent/xvideos/"
 
+
+def getTimestamp () :
+    ts = time.time()
+    return  datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+
+
+def sendToChat (data):
+    connection.send(xmpp.protocol.Message(mcandres, '[' + getTimestamp() + '] ' + str(data), typ='chat'))
+
 def infoLog(data):
     ts = time.time()
     st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-    os.system("echo '[%s]%s'" % (st,data))
+    try:
+        os.system("echo '[%s]%s'" % (st,data))
+    except UnicodeEncodeError:
+        os.system("echo '[%s]UnicodeEncodeError'" % (st))
+        
 
 def queryDesignView( design_url ):
     retval = urllib2.urlopen(design_url).read()
@@ -161,6 +188,7 @@ def retrieve_video ( data ):
     f.close()
     
     VID_DB[doc_id] = TEMP_DOC
+    sendToChat("%s downloaded" % TEMP_DOC['title'])
 
 
 def set_retrieve_zero ( data ):
@@ -213,6 +241,7 @@ def main():
 
 
 if __name__ == "__main__":
+    sendToChat("I am now online")
     while(1):
         main()
         time.sleep(5)

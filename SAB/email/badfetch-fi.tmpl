@@ -1,0 +1,21 @@
+#encoding UTF-8
+##
+## Virheellisen URL-noudon sähköpostin pohja SABnzbd ohjelmalle
+## Tämä on Cheetah pohja
+## Dokumentaatio: http://sabnzbd.wikidot.com/email-templates
+##
+## Rivinvaihdot ja välilyönnit ovat merkitseviä!
+##
+## Tässä on sähköpostin otsikkotiedot
+To: $to
+From: $from
+Date: $date
+Subject: SABnzbd ei voinut hakea NZB tiedostoa
+X-priority: 5
+X-MS-priority: 5
+## Tämän jälkeen tulee viestin sisältö, tyhjä rivi on pakollinen!
+
+Hei,
+
+SABnzbd ei voinut hakea NZB tiedostoa osoitteesta $url.
+Virheviesti: $msg

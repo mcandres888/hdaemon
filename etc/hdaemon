@@ -1,6 +1,7 @@
 #!/bin/bash
 # declare all you config names hear
-CONFIG=('video.conf');
+CONFIG=('video.conf' 'sab.conf' 'youtube.conf');
+#CONFIG=('video.conf' 'youtube.conf');
 APP_PATH=/home/mcandres/sandbox/hdaemons/
 PYTHON=/usr/bin/python
 CONFIG_PATH=/home/mcandres/sandbox/hdaemons/etc/

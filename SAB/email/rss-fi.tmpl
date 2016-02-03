@@ -1,0 +1,26 @@
+#encoding UTF-8
+##
+## RSS sähköpostipohja SABnzbd:lle
+## Tämä on Cheetah pohja
+## Dokumentaatio: http://sabnzbd.wikidot.com/email-templates
+##
+## Rivinvaihdot ja välilyönnit ovat merkitseviä!
+##
+## Nämä ovat otsaketiedot. Rivien ensimmäisiä sanoja ei saa vaihtaa!
+To: $to
+From: $from
+Date: $date
+Subject: SABnzbd on lisännyt $amount työtä jonoon
+X-priority: 5
+X-MS-priority: 5
+## Tämän jälkeen tulee viestin runko, ensimmäinen rivinvaihto on pakollinen!
+
+Hei,
+
+SABnzbd on lisännyt $amount työtä jonoon.
+Ne ovat RSS syötteestä "$feed".
+<!--#for $job in $jobs#-->
+    $job <!--#slurp#-->
+<!--#end for#-->
+
+Heippa
